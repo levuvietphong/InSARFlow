@@ -1,4 +1,4 @@
-# InSARFlow
+# InSarFlow
 Parallel InSAR processing for time-series analysis 
 
 ## Introduction
@@ -30,13 +30,13 @@ export PATH=$PATH:/home/USERNAME/InSarFlow/scripts
 I setup ISCE and GIAnT in 2 separate environments.
 For ISCE and GIAnT to recognize InSarFlow, add InSarFlow/scripts folder to the PYTHONPATH of each environment
 
-* .ISCE_config
+* ISCE config
 ```bash
 export InSarFlow_HOME=/home/USERNAME/InSarFlow
 export PYTHONPATH=$ISCE_ROOT:$ISCE_HOME/applications:$ISCE_HOME/component:$InSarFlow_HOME/scripts
 ```
 
-* .GIAnT
+* GIAnT config
 ```bash
 export InSarFlow_HOME=/home/USERNAME/InSarFlow
 export PYTHONPATH=$GIANT:$PYAPS:$VARRES:$InSarFlow_HOME/scripts
