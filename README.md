@@ -1,4 +1,6 @@
-# InSarFlow
+<p align="left">
+<img src="logo.png" alt="" width="500"/>
+</p>
 Parallel InSAR processing for time-series analysis 
 
 ## Introduction
@@ -48,7 +50,7 @@ Also, follow instruction [here](https://github.com/isce-framework/isce2) for aut
 #### 1. Create a csv file from ASF
 Sentinel-1 and ALOS data can be accessed from [ASF](https://vertex.daac.asf.alaska.edu/). 
 
-* Search your region of interest (*==Note: At this moment, InSarFlow only supports ALOS and Sentinel-1==*)
+* Search your region of interest (*Note: At this moment, InSarFlow only supports ALOS and Sentinel-1*)
 * Select an image that covers your area.
 * Click on baseline, a PS Baseline Chart will open, showing information of all images for other days.
 * Click on Export to CSV to download
