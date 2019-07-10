@@ -1,9 +1,8 @@
 <p align="left">
-<img src="logo.png" alt="" width="500"/>
+<img src="logo.png" alt="" width="600"/>
 </p>
-Parallel InSAR processing for time-series analysis 
 
-## Introduction
+## Getting Started
 As [Interferometric Synthetic Aperture Radar (InSAR)](https://en.wikipedia.org/wiki/Interferometric_synthetic-aperture_radar) data becomes increasingly popular, the ability to process these large datasets for time-series analysis is important.
 InSarFlow utilizes [mpi4py](https://pypi.org/project/mpi4py/) for parallel processing of SAR interferograms and time-series analysis based on [ISCE](https://winsar.unavco.org/software/isce) and [GIAnT](http://earthdef.caltech.edu/projects/giant/wiki#) models.
 
