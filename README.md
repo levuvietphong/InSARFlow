@@ -59,19 +59,21 @@ Sentinel-1 and ALOS data can be accessed from [ASF](https://vertex.daac.asf.alas
 #### 2. Processing interferograms
 ```bash
 source ~/.ISCE_CONFIG   # Activate ISCE environment
-cd path_to_your_project
-python insar_XXXX.py
+cd /home/USERNAME/InSarFlow/examples/MekongDelta_SEN1A
+python insar_SEN1A.py
 ```
 
 #### 3. Time-series analysis
 ```bash
 source ~/.GIAnT
+cd /home/USERNAME/InSarFlow/examples/MekongDelta_SEN1A
+python insar_SEN1A.py
 ```
 
-## Credits
+*Note: For large-scale processing, the storage may reach 100s GB or > 1TB, so move the example folder to disks that have enough free space. The example folder is not neccessary to be in the InSarFlow directory*
 
 ## License
-See the LICENSE file.
+See LICENSE file for more information.
 
 
 ## Acknowledgments
@@ -81,4 +83,4 @@ Big thanks to the following people for contributing to this project in myriad wa
 * Hai Pham 
 
 ## Author
-* Phong Le: <mailto:levuvietphong@gmail.com>
+* Phong Le: <levuvietphong@gmail.com>
