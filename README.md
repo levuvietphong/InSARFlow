@@ -42,8 +42,15 @@ export PYTHONPATH=$ISCE_ROOT:$ISCE_HOME/applications:$ISCE_HOME/component:$InSar
 export InSarFlow_HOME=/home/USERNAME/InSarFlow
 export PYTHONPATH=$GIANT:$PYAPS:$VARRES:$InSarFlow_HOME/scripts
 ```
-Note: Users need to open an account (free) on ASF to download SAR data.
-Also, follow instruction [here](https://github.com/isce-framework/isce2) for automatic DEM download from https://urs.earthdata.nasa.gov/
+
+* For making Python scripts executable and runnable from anywhere, run the following:
+```bash
+chmod +x /home/USERNAME/InSarFlow/scripts/*.py
+```
+
+Note: User needs to open an account (free) on ASF to download SAR data.
+Also, follow the instruction [here](https://github.com/isce-framework/isce2) for automatic DEM download from https://urs.earthdata.nasa.gov/
+
 
 ## Try your first InSarFlow
 #### 1. Create a csv file from ASF
