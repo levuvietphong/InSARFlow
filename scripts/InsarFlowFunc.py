@@ -211,7 +211,6 @@ def AlosRunISCEScripts(sar, flag_run, lists):
     
     pathscript = os.path.dirname(__file__)
     for path in sar.columns:
-        type(path)
         frames = sar[path]
         for frame in frames:
             if ~np.isnan(frame):
