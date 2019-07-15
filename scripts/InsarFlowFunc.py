@@ -2,30 +2,21 @@ import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt 
 from string import whitespace
-#import gdal, ogr, osr
 import h5py
 import os,sys,shutil,subprocess,math,datetime
 from datetime import date
 
-
-# def array2raster(newRasterfn,rasterOrigin,pixelWidth,pixelHeight,array):
-#     cols = array.shape[1]
-#     rows = array.shape[0]
-#     originX = rasterOrigin[0]
-#     originY = rasterOrigin[1]
-
-#     driver = gdal.GetDriverByName('GTiff')
-#     outRaster = driver.Create(newRasterfn, cols, rows, 1, gdal.GDT_Float32)
-#     outRaster.SetGeoTransform((originX, pixelWidth, 0, originY, 0, pixelHeight))
-#     outband = outRaster.GetRasterBand(1)
-#     outband.WriteArray(array)
-#     outRasterSRS = osr.SpatialReference()
-#     outRasterSRS.ImportFromEPSG(4326)
-#     outRaster.SetProjection(outRasterSRS.ExportToWkt())
-#     outband.FlushCache()
-
+"""
+Functions for InsarFlow
+This module provides functions in InsarFlow for running ISCE and GIAnT
+Author: Phong Le
+Last modified: July, 2019
+"""
 
 def AlosCreateConfigs(data, sar, opts, flag_create, lists):
+    #####################################################################
+    # This function create a config file for processing ALOS-PALSAR data
+    #####################################################################
     flog = open(lists.LogFiles,"a")
     flog.write('---------------------------------------------------\n')
     flog.write('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
@@ -104,6 +95,9 @@ def AlosCreateConfigs(data, sar, opts, flag_create, lists):
 
 
 def Sen1ACreateConfigs(data, opts, flag_create, lists):
+    #####################################################################
+    # This function create a config file for processing SENTINEL-1A data
+    #####################################################################
     flog = open(lists.Project+'/'+lists.LogFiles,"a")
     flog.write('---------------------------------------------------\n')
     flog.write('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
@@ -203,6 +197,10 @@ def Sen1ACreateConfigs(data, opts, flag_create, lists):
 
 
 def AlosRunISCEScripts(sar, flag_run, lists):
+    #####################################################################
+    # This function implement the run_scripts_ALOS.sh in bash shell
+    # Note: The run is outside python env
+    #####################################################################
     flog = open(lists.LogFiles,"a")
     flog.write('---------------------------------------------------\n')
     flog.write('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
@@ -229,6 +227,10 @@ def AlosRunISCEScripts(sar, flag_run, lists):
 
 
 def Sen1ARunISCEScripts(flag_run, lists):
+    #####################################################################
+    # This function implement the run_scripts_SEN1A.sh in bash shell
+    # Note: The run is outside python env
+    #####################################################################
     flog = open(lists.Project+'/'+lists.LogFiles,"a")
     flog.write('---------------------------------------------------\n')
     flog.write('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
@@ -251,6 +253,9 @@ def Sen1ARunISCEScripts(flag_run, lists):
 
 
 def RunGIAnTScripts(project, platform, sar, prep, igram, processtack, invert, gmode):
+    #####################################################################
+    # This function calls GIAnT processing scripts for time-series analysis
+    #####################################################################    
     flog = open('log_giant.txt',"a")
     flog.write('---------------------------------------------------\n')
     flog.write('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))

@@ -4,6 +4,48 @@ import os,sys,subprocess
 import InsarFlowObj as isfo
 import InsarFlowFunc as isfc
 
+"""
+--------------------------------------
+Example for InSARFlow in Mekong Delta.
+--------------------------------------
+
+This file provides an example of InSARFlow usage for Mekong Delta using
+ALOS-PALSAR data. The script will read 'Mekong_ASF_ALOS.csv' to extract
+information for processing. This CSV file should be processed and 
+downloaded from Alaska Satellite Facility website.
+
+Example
+-------
+We recommend users to run ISCE processing first. After ISCE, InSARFlow
+will process and prepare files for GIAnT using ROIPAC format.
+
+1. Running ISCE
+    - Activate ISCE environment
+    - Set "isce = True" (and "giant = False") in the option below
+    - To submit jobs and run InSARFlow on multiple computing, users should 
+      set "GenerateRoipac = 'false' and CleanFiles = 'false'.
+       
+    In terminal run
+    $ python insar_ALOS
+
+2. Running GIAnT
+    - Activate GIAnT environment
+    - Set "giant = True" (and "isce = False") in the option below
+    
+    Again, in terminal run
+    $ python insar_ALOS
+
+Notes
+-----
+    Generally, all processing steps in InSARFlow should be done sequentially.
+    Tasks completed can be set to false to skip running it again. 
+    For example, after downloading SAR data, set DownloadImages = 'false' to save
+    time if you want to re-processing any step.
+    You can also download SAR from other sources, but the CSV files must include
+    necessary information.
+"""
+
+
 data = pd.read_csv('Mekong_ASF_ALOS.csv')
 paths = np.unique(data['Path Number'])
 frames = np.unique(data['Frame Number'])
