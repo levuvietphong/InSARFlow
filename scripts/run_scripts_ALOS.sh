@@ -21,13 +21,17 @@ source $config
 logbash='bash_logs.txt'
 touch $logbash
 
+mkdir -p $zipdir
+mkdir -p $rawdir
+mkdir -p $ISCEdir
+mkdir -p $GIAnTdir
+mkdir -p $MISCdir
 
 #--------------------------------------------------------
 # 1. DOWNLOAD SAR RAW DATA
 #    - Data can be downloaded automatically using script 
 #    by ASF (flag_asf=true) or the SSARA (false)
 #--------------------------------------------------------
-mkdir -p $zipdir
 if $flag_download; then
     echo -e "1. Downloading ALOS data ... " | tee -a "$logbash"
     # Use Alaska Satellite Facilities script
@@ -42,8 +46,6 @@ fi
 #    and then obtain date information. 
 #    - Default folders are renamed to corresponding dates
 #--------------------------------------------------------------
-mkdir -p $rawdir
-mkdir -p $ISCEdir
 if $flag_unzip; then    
     echo -e "2. Unzipping and extracting data..." | tee -a "$logbash"
     sh $scriptdir/Get_ALOSdateID.sh $zipdir $rawdir $dateID
@@ -151,7 +153,6 @@ fi
 # 7. PREPARING ROIPAC FORMAT FILES AND BOUNDING BOX
 #---------------------------------------------------
 if $flag_rpac; then
-    mkdir -p $GIAnTdir
     if [ -f $ifglist ]; then
         mv $ifglist $GIAnTdir/
     fi

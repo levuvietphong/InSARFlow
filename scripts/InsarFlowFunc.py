@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from string import whitespace
 import h5py
 import os,sys,shutil,subprocess,math,datetime
+import pickle
 from datetime import date
 
 """
@@ -35,6 +36,10 @@ def AlosCreateConfigs(data, sar, opts, flag_create, lists):
                 sub_data.to_csv(directory+'/'+lists.SubData,index=False)
 
                 if flag_create:
+                    # Save options and list to pickle file
+                    with open(directory + '/ISFpickle.dat', "wb") as f:
+                        pickle.dump(lists, f)
+
                     # Create parameters in bash file for ALOS
                     fout = open(directory+'/ALOS_parameters.cfg','w')
                     orbit = data[(data['Path Number']==int(path)) & (data['Frame Number']==int(frame))]['Orbit']
@@ -80,6 +85,7 @@ def AlosCreateConfigs(data, sar, opts, flag_create, lists):
                     fout.write('rawdir=%s  \n' % lists.RawDirectory)
                     fout.write('ISCEdir=%s  \n' % lists.ISCEDirectory)
                     fout.write('GIAnTdir=%s  \n' % lists.GIAnTDirectory)
+                    fout.write('MISCdir=%s  \n' % lists.MISCDirectory)                        
                     fout.write('scriptdir=%s  \n' % os.path.dirname(__file__))
                     fout.write('dateID=%s  \n' % lists.dateID)
                     fout.write('screenlog=%s  \n' % lists.LogScreen)
@@ -114,6 +120,10 @@ def Sen1ACreateConfigs(data, opts, flag_create, lists):
     sub_data.to_csv(directory+'/'+lists.SubData,index=False)
 
     if flag_create:
+        # Save options and list to pickle file
+        with open(directory + '/ISFpickle.dat', "wb") as f:
+            pickle.dump(lists, f)
+
         # Create parameters in bash file for ALOS
         fout = open(directory+'/SEN1A_parameter.cfg','w')
         fout.write('sensor="SENTINEL-1A" \n')
@@ -183,6 +193,7 @@ def Sen1ACreateConfigs(data, opts, flag_create, lists):
         fout.write('poedir=%s  \n' % lists.PoeDirectory)
         fout.write('ISCEdir=%s  \n' % lists.ISCEDirectory)
         fout.write('GIAnTdir=%s  \n' % lists.GIAnTDirectory)
+        fout.write('MISCdir=%s  \n' % lists.MISCDirectory)
         
         fout.write('scriptdir=%s  \n' % os.path.dirname(__file__))
         fout.write('screenlog=%s  \n' % lists.LogScreen)

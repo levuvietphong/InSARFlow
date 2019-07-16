@@ -114,7 +114,8 @@ if isce:
                 ZipDirectory = 'ALOS_zip',          # Folder contains zip ALOS files
                 RawDirectory = 'ALOS_raw',          # Folder for ALOS raw extraction
                 ISCEDirectory = 'INSAR',            # Folder for ISCE output processing
-                GIAnTDirectory = 'GIAnT'            # Folder used for GIAnT processing
+                GIAnTDirectory = 'GIAnT',           # Folder used for GIAnT processing
+                MISCDirectory = 'MISC'              # Folder for Miscellaneous
                 )
 
     create_parameters = True                        # Generate Config Files

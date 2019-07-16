@@ -26,6 +26,7 @@ mkdir -p $auxdir
 mkdir -p $poedir
 mkdir -p $ISCEdir
 mkdir -p $GIAnTdir
+mkdir -p $MISCdir
 
 # DOWNLOADING DATA
 if $flag_download; then

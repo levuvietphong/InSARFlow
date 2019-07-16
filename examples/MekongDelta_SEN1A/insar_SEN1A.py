@@ -104,9 +104,10 @@ if isce:
                 AuxDirectory = 'AUXILIARY',             # Folder contains Auxliary data
                 PoeDirectory = 'POEORB',                # Folder contains POEORB data
                 ISCEDirectory = 'ISCE',                 # Folder for ISCE output processing
-                GIAnTDirectory = 'GIAnT'                # Folder used for GIAnT processing
+                GIAnTDirectory = 'GIAnT',               # Folder used for GIAnT processing
+                MISCDirectory = 'MISC'                  # Folder for Miscellaneous
                 )
-
+    
     create_parameters = True                        # Generate Config Files
     run_script = True                               # Run the Bash script
 

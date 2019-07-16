@@ -110,7 +110,8 @@ class ALOS_Lists:
                          DatePairList = None, ActiveList = None, CompleteList = None,
                          BoundBox = None, IfgList = None, SubData = None, 
                          ZipDirectory = None, RawDirectory = None,
-                         ISCEDirectory = None, GIAnTDirectory = None):
+                         ISCEDirectory = None, GIAnTDirectory = None,
+                         MISCDirectory = None):
 
           # LIST OF FILES AND DIRECTORIES FOR ALOS PROCESSING
           # Log files
@@ -153,6 +154,9 @@ class ALOS_Lists:
           # Folder contains file for GIAnT processing
           self.GIAnTDirectory = GIAnTDirectory if GIAnTDirectory is not None else 'GIAnT'
 
+          # Miscellaneous Folder
+          self.MISCDirectory = MISCDirectory if MISCDirectory is not None else 'MISC'
+
 
 class SEN1A_Lists:
      """
@@ -163,7 +167,7 @@ class SEN1A_Lists:
                          LogScreen = None, DatePairList = None, ActiveList = None, 
                          CompleteList = None,BoundBox = None, IfgList = None, SubData = None, 
                          SLCDirectory = None, AuxDirectory = None, PoeDirectory = None, 
-                         ISCEDirectory = None, GIAnTDirectory = None):
+                         ISCEDirectory = None, GIAnTDirectory = None,MISCDirectory = None):
 
           # LIST OF FILES AND DIRECTORIES FOR ALOS PROCESSING
           # Project name
@@ -211,3 +215,6 @@ class SEN1A_Lists:
 
           # Folder contains file for GIAnT processing
           self.GIAnTDirectory = GIAnTDirectory if GIAnTDirectory is not None else 'GIAnT'
+
+          # Miscellaneous Folder
+          self.MISCDirectory = MISCDirectory if MISCDirectory is not None else 'MISC'
