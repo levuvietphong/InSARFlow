@@ -64,17 +64,20 @@ Sentinel-1 and ALOS data can be accessed from [ASF](https://vertex.daac.asf.alas
 
 
 #### 2. Processing interferograms
+To run ISCE, you must set the parameters: *RunScript = True* in the [ISCE] group
 ```bash
-source ~/.ISCE_CONFIG   # Activate ISCE environment
-cd /home/USERNAME/InSARFlow/examples/MekongDelta_SEN1A
-python insar_SEN1A.py
+source ~/.ISCE_CONFIG   # Activate ISCE env
+cd /home/USERNAME/InSARFlow/examples/MekongDelta
+InSARFlow.py -c Mekong_SEN1A.cfg
 ```
 
 #### 3. Time-series analysis
+To run ISCE, you must set the options appropriately in the [GIANT] group.
+Note that GIAnT must be run after ISCE is done.
 ```bash
-source ~/.GIAnT
-cd /home/USERNAME/InSARFlow/examples/MekongDelta_SEN1A
-python insar_SEN1A.py
+source ~/.GIAnT         # Activate GIANT env
+cd /home/USERNAME/InSARFlow/examples/MekongDelta
+InSARFlow.py -c Mekong_SEN1A.cfg
 ```
 
 *Note: For large-scale processing, the storage may reach 100s GB or > 1TB, so move the example folder to disks that have enough free space. The example folder is not neccessary to be in the InSARFlow directory*

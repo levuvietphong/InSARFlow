@@ -139,14 +139,20 @@ if $flag_ifgs; then
     echo -e "   ... Checking completed pairs" | tee -a "$logbash"
     Check_Interferogram_ALOS.py -m $pmode -i $ISCEdir -l $DatePairList -a $ActiveList -c $CompleteList
 
-    # This tasks will be run in parallel in compute nodes.
-    # The sbatch command will submit the job with configurations as shown in the insar_mpi.sh file.
-    # sbatch insar_mpi.sh
-    export OMP_NUM_THREADS=4
-    srun -n 5 mpiALOS.py -m $pmode -r $rawdir -i $ISCEdir -l $ActiveList 
-    
-    # Update complete and active pairs
-    Check_Interferogram_ALOS.py -m $pmode -i $ISCEdir -l $DatePairList -a $ActiveList -c $CompleteList
+    if $flag_mpi; then
+        # ... Submit jobs to sbatch
+        # This runs the jobs on multiple computing nodes using MPI
+        # The sbatch command will submit the job with configurations as shown in the insar_mpi.sh file.
+        sbatch qsub_ALOS.sh
+    else
+        # ... OR run jobs on an interactive node
+        # This runs the jobs on a single computing node (still using MPI, but less resources)
+        export OMP_NUM_THREADS=4
+        srun -n 20 $pathscript/mpi_ALOS.py -m $pmode -r $rawdir -i $ISCEdir -l $ActiveList 
+
+        # Update complete and active pairs
+        Check_Interferogram_ALOS.py -m $pmode -i $ISCEdir -l $DatePairList -a $ActiveList -c $CompleteList
+    fi
 fi
 
 #---------------------------------------------------
@@ -168,8 +174,9 @@ if $flag_rpac; then
 
     # Run geocoding using mpi
     echo -e "Running re-geocoding ......" | tee -a "$logbash"
-    export OMP_NUM_THREADS=12
-    srun -n 20 mpi_geocode_ALOS.py -m $pmode -i $ISCEdir -l $DatePairList -g $GIAnTdir
+    echo -e "See progress at mpi_geocode_log.txt ......" | tee -a "$logbash"
+    export OMP_NUM_THREADS=4
+    srun -n 20 $pathscript/mpi_geocode_ALOS.py -m $pmode -i $ISCEdir -l $DatePairList -g $GIAnTdir
 
     # Update cropping information
     echo -e "Running PrepareRoipac again......" | tee -a "$logbash"

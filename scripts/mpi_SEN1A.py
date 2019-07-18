@@ -163,7 +163,7 @@ if __name__ == '__main__':
 
     comm.Barrier()
 
-    if rank==0:
+    if (rank==0) and (num_scenes>0):
         time_end=timeit.default_timer()
         fout.write('TOTAL PROCESSING TIME:' + str((time_end-time_start)/60.) + ' (min) \n')
         fout.write('AVERAGE:' + str((time_end-time_start)/60./num_scenes) + ' (min/pair) \n')

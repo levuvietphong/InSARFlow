@@ -16,7 +16,7 @@ echo "PROCESSING DInSAR USING ISCE ......"
 #    Select sensor, processing level, path, frame, 
 #    and list of orbit
 #-----------------------------------------------------
-config='./SEN1A_parameter.cfg'
+config='./SEN1A_parameters.cfg'
 source $config
 logbash='bash_logs.txt'
 touch $logbash
@@ -82,15 +82,17 @@ if $flag_ifgs; then
     # Run topsApp.py processing in parallel 
     # Only run pairs listed in the $ActiveList
     #-------------------------------------------
-    # ... Submit jobs to sbatch
-    sbatch $pathscript/qsub_SEN1A.sh
-    
-    # ... OR run jobs on an interactive node
-    # export OMP_NUM_THREADS=4
-    # srun -n 8 $pathscript/mpi_SEN1A.py -d $ISCEdir -i $active_file
-
-    # Update complete and active pairs
-    Check_Interferogram_SEN1A.py -i $ISCEdir -l $DatePairList -a $ActiveList -c $CompleteList
+    if $flag_mpi; then
+        # ... Submit jobs to sbatch
+        # This runs the jobs on multiple computing nodes using MPI
+        # The sbatch command will submit the job with configurations as shown in the insar_mpi.sh file.
+        sbatch $pathscript/qsub_SEN1A.sh
+    else
+        # ... OR run jobs on an interactive node
+        # This runs the jobs on a single computing node (still using MPI, but less resources)
+        export OMP_NUM_THREADS=4
+        srun -n 8 $pathscript/mpi_SEN1A.py -d $ISCEdir -i $ActiveList
+    fi 
 fi
 
 

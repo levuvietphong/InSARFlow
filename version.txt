@@ -1,1 +1,8 @@
 1.0.0
+    - First release
+    
+1.0.1
+    - Use config file for control
+    - Fix names and terminologies
+    - Update parallel options
+    - Other bugfixes

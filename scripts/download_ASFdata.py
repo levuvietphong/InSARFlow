@@ -638,7 +638,7 @@ if __name__ == "__main__":
 
    # Download Data files
    os.chdir(datadir)
-   # downloader = bulk_downloader(url_scene)
-   # downloader.download_files()
-   # downloader.print_summary()
+   downloader = bulk_downloader(url_scene)
+   downloader.download_files()
+   downloader.print_summary()
    os.chdir(cwd)
