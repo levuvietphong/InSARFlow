@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=ISF-SEN1A
+#SBATCH --job-name=ISF-ALOS
 #SBATCH --nodes=2
 #SBATCH --time=48:00:00
 #SBATCH --ntasks-per-node=20
@@ -11,10 +11,10 @@ ulimit -s unlimited
 ulimit -l unlimited
 
 source /home/phonglvv/.ISCE_CONFIG
-config='./SEN1A_parameters.cfg'
+config='./ALOS_parameters.cfg'
 source $config
-export OMP_NUM_THREADS=5
-srun -n 16 $pathscript/mpi_SEN1A.py -d $ISCEdir -i $ActiveList
+export OMP_NUM_THREADS=4
+srun -n 20 $pathscript/mpi_ALOS.py -m $pmode -r $rawdir -d $ISCEdir -l $ActiveList 
 
 # Update complete and active pairs
-Check_Interferogram_SEN1A.py -i $ISCEdir -l $DatePairList -a $ActiveList -c $CompleteList
+Check_Interferogram_ALOS.py -m $pmode -i $ISCEdir -l $DatePairList -a $ActiveList -c $CompleteList
