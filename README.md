@@ -45,7 +45,7 @@ export PYTHONPATH=$GIANT:$PYAPS:$VARRES:$InSARFlow_HOME/scripts
 
 * For making Python scripts executable and runnable from anywhere, run the following:
 ```bash
-chmod +x /home/USERNAME/InSARFlow/scripts/*.py
+chmod +x /home/USERNAME/InSARFlow/scripts/*
 ```
 
 Note: User needs to open an account (free) on ASF to download SAR data.
@@ -60,27 +60,27 @@ Sentinel-1 and ALOS data can be accessed from [ASF](https://vertex.daac.asf.alas
 * Select an image that covers your area.
 * Click on baseline, a PS Baseline Chart will open, showing information of all images for other days.
 * Click on Export to CSV to download
-* If your area doesn't fit into one image, you have to process for multiple paths/frames. 
+* If your study area doesn't fit into one image, you have to process multiple paths/frames. 
 
 
 #### 2. Processing interferograms
 To run ISCE, you must set the parameters: *RunScript = True* in the [ISCE] group
 ```bash
-source ~/.ISCE_CONFIG   # Activate ISCE env
+source ~/.ISCE_CONFIG   # Activate ISCE conda env
 cd /home/USERNAME/InSARFlow/examples/MekongDelta
 InSARFlow.py -c Mekong_SEN1A.cfg
 ```
 
 #### 3. Time-series analysis
-To run ISCE, you must set the options appropriately in the [GIANT] group.
-Note that GIAnT must be run after ISCE is done.
+To run GIAnT, set *RunScript = False* in the [ISCE] group and *RunGIAnT = True* in the [GIANT] group.
+*Note that GIAnT must be run after ISCE is completed.*
 ```bash
-source ~/.GIAnT         # Activate GIANT env
+source ~/.GIAnT         # Activate GIANT conda env
 cd /home/USERNAME/InSARFlow/examples/MekongDelta
 InSARFlow.py -c Mekong_SEN1A.cfg
 ```
 
-*Note: For large-scale processing, the storage may reach 100s GB or > 1TB, so move the example folder to disks that have enough free space. The example folder is not neccessary to be in the InSARFlow directory*
+*For large-scale processing, the storage may reach 100s GB or > 1TB, so move the example folder to disks that have enough free space. The example folder is not neccessary to be in the InSARFlow directory*
 
 ## License
 See LICENSE file for more information.
