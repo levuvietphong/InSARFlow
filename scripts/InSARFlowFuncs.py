@@ -89,8 +89,13 @@ def ALOSCreateConfigs(data, sar, opts, flag_create, lists):
                     fout.write('perp_bsln=%d \n' % opts.PerpendicularBaselineThreshold)
                     fout.write('temp_bsln=%d \n' % opts.TemporalBaselineThreshold)
                     fout.write('omp_threads=%d \n' % opts.OpenMP_Num_Threads)
+                    fout.write('preparexml=%s \n' % Upper2Lower(opts.PrepareXML))
+                    fout.write('igram=%s \n' % Upper2Lower(opts.PrepareIgram))
+                    fout.write('stack=%s \n' % Upper2Lower(opts.ProcessStack))
+                    fout.write('invert=%s \n' % Upper2Lower(opts.RunInversion))
+                    fout.write('method=%s \n' % opts.InvertMethod)
+                    
                     fout.write('pathscript=%s  \n' % pathscript)
-                        
                     fout.write('zipdir=%s  \n' % lists.ZipDirectory)
                     fout.write('rawdir=%s  \n' % lists.RawDirectory)
                     fout.write('ISCEdir=%s  \n' % lists.ISCEDirectory)
@@ -195,8 +200,13 @@ def SEN1ACreateConfigs(data, opts, flag_create, lists):
         fout.write('flag_rpac=%s \n' % Upper2Lower(opts.GenerateRoipac))
         fout.write('flag_clean=%s \n' % Upper2Lower(opts.CleanFiles))
         fout.write('temp_bsln=%d \n' % opts.TemporalBaselineThreshold)
-        fout.write('omp_threads=%d \n' % opts.OpenMP_Num_Threads)
+        fout.write('preparexml=%s \n' % Upper2Lower(opts.PrepareXML))
+        fout.write('igram=%s \n' % Upper2Lower(opts.PrepareIgram))
+        fout.write('stack=%s \n' % Upper2Lower(opts.ProcessStack))
+        fout.write('invert=%s \n' % Upper2Lower(opts.RunInversion))
+        fout.write('method=%s \n' % opts.InvertMethod)
 
+        fout.write('omp_threads=%d \n' % opts.OpenMP_Num_Threads)
         fout.write('pathscript=%s  \n' % pathscript)
         fout.write('slcdir=%s  \n' % lists.SLCDirectory)
         fout.write('auxdir=%s  \n' % lists.AuxDirectory)
@@ -218,7 +228,7 @@ def SEN1ACreateConfigs(data, opts, flag_create, lists):
 
 def ALOSRunISCEScripts(sar, flag_run, lists):
     #####################################################################
-    # This function implement the run_scripts_ALOS.sh in bash shell
+    # This function implements the run_scripts_ALOS.sh in bash shell
     # Note: The run is outside python env
     #####################################################################
     flog = open(lists.LogFiles,"a")
@@ -250,7 +260,7 @@ def ALOSRunISCEScripts(sar, flag_run, lists):
 
 def SEN1ARunISCEScripts(flag_run, lists):
     #####################################################################
-    # This function implement the run_scripts_SEN1A.sh in bash shell
+    # This function implements the run_scripts_SEN1A.sh in bash shell
     # Note: The run is outside python env
     #####################################################################
     flog = open(lists.Project+'/'+lists.LogFiles,"a")
@@ -356,11 +366,3 @@ def RunGIAnTScripts(project, platform, sar, prep, igram, processtack, invert, gm
         os.chdir(cwd)
 
     flog.close()
-
-
-def ConvertToTiffFiles(sar):
-    flog = open('log_GIS.txt',"a")
-    flog.write('---------------------------------------------------\n')
-    flog.write('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-    flog.write('CONVERTING TO TIFF FORMAT ...\n') 
-    flog.flush()

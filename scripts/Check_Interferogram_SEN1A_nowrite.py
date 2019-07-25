@@ -15,29 +15,21 @@ def cmdLineParse():
     parser = argparse.ArgumentParser(description='Checking IFGs files before running')
     parser.add_argument('-i','--iscedir', type=str, required=False, help='ISCE folder path', dest='isce')
     parser.add_argument('-l','--list', type=str, required=True, help='List of folders containing pairs', dest='list')
-    parser.add_argument('-a','--active', type=str, required=True, help='Output list of active incompleted ifgs ', dest='active')
-    parser.add_argument('-c','--complete', type=str, required=True, help='Output list of completed ifgs ', dest='complete')
     inputs = parser.parse_args()    
     return inputs
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 7:
-        print('Check_Interferogram_SEN1A.py -i iscedir -l list -a active -c complete')
+    if len(sys.argv) !=5:
+        print('Check_Interferogram_SEN1A_nowrite.py -i iscedir -l list')
         sys.exit()
     else:
         inputs = cmdLineParse()
         iscedir = inputs.isce
         isce_xml_list = inputs.list
-        active_list = inputs.active
-        complete_list = inputs.complete
     
     filelist = ['isce.log', 'topsApp.xml', 'topsinsar.log', 'topsProc.xml']
     dirlist = ['merged']
-    
-    # Create a file checking active pairs
-    fact= open(active_list,"w")
-    fcom= open(complete_list,"w")
     pairs = open(isce_xml_list)
 
     active_pairs = 0
@@ -48,8 +40,8 @@ if __name__ == '__main__':
         scene = iscedir + '/' + pairdir
         cwd = os.getcwd()
         os.chdir(scene)
-        filt_set = glob.glob('merged/filt_topophase.unw*')
-        cor_set = glob.glob('merged/topophase.cor*') 
+        filt_set = glob.glob(dirlist[0]+'/filt_topophase.unw*')
+        cor_set = glob.glob(dirlist[0]+'/topophase.cor*') 
         for file in filelist:
             if not os.path.isfile(file):
                 flag_run = False
@@ -63,19 +55,9 @@ if __name__ == '__main__':
         # If missing any file, set flag_run to False and update pairdir to active pair file
         if flag_run == False:
             active_pairs += 1                
-            fact.write('%s \n' % pairdir)
-        else:
-            fcom.write('%s \n' % pairdir)
 
         num_pairs += 1
         os.chdir(cwd)
     
     print('- NUMBER OF PAIRS WILL BE PROCESSED: %d \n' % active_pairs)
     print('- NUMBER OF PAIR COMPLETED: %d \n' % (num_pairs-active_pairs))
-    
-    # Close active pair file
-    print('Complete pair file (%s) has been created \n' % complete_list)
-    print('Active pair file (%s) has been created \n' % active_list)
-    print('See list of pairs will be processed in %s \n' % active_list)
-    fact.close()
-    fcom.close()

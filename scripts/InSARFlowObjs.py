@@ -15,39 +15,40 @@ class ALOS_Options:
                          GenerateXML=None, RunIFGs=None, MPIMultipleNodes = None,
                          GenerateRoipac=None, CleanFiles=None,
                          TemporalBaselineThreshold=None, 
-                         PerpendicularBaselineThreshold=None,
-                         OpenMP_Num_Threads=None):
+                         PerpendicularBaselineThreshold=None, OpenMP_Num_Threads=None,
+                         PrepareXML=None, PrepareIgram=None, ProcessStack=None, 
+                         RunInversion=None, InvertMethod=None):
           
           # SET OPTIONS and PARAMETERS for ALOS PROCESSING
           # Select either 'insar' or 'stripmap' mode
           self.ProcessingMode = Mode
 
           # Downloading data
-          self.DownloadImages = DownloadImages if DownloadImages is not None else 'true'
+          self.DownloadImages = DownloadImages if DownloadImages is not None else 'false'
           
           # Unzipping data
-          self.UnzipData = UnzipData if UnzipData is not None else 'true'
+          self.UnzipData = UnzipData if UnzipData is not None else 'false'
           
           # Baseline check for pairing
-          self.BaselineCheck = BaselineCheck if BaselineCheck is not None else 'true'
+          self.BaselineCheck = BaselineCheck if BaselineCheck is not None else 'false'
           
           # Removing redundant files and folders
-          self.RemoveUnsedPairs = RemoveUnsedPairs if RemoveUnsedPairs is not None else 'true'
+          self.RemoveUnsedPairs = RemoveUnsedPairs if RemoveUnsedPairs is not None else 'false'
           
           # Create XML files for isce processing
-          self.GenerateXML = GenerateXML if GenerateXML is not None else 'true'
+          self.GenerateXML = GenerateXML if GenerateXML is not None else 'false'
           
           # Running interferograms
-          self.RunIFGs = RunIFGs if RunIFGs is not None else 'true'
+          self.RunIFGs = RunIFGs if RunIFGs is not None else 'false'
 
           # Running ISCE processing in parallel using MPI
           self.MPIMultipleNodes = MPIMultipleNodes if MPIMultipleNodes is not None else 'false'
 
           # Preparing roipac format for GIAnT
-          self.GenerateRoipac = GenerateRoipac if GenerateRoipac is not None else 'true'
+          self.GenerateRoipac = GenerateRoipac if GenerateRoipac is not None else 'false'
 
           # Cleaning unused file for GIAnT
-          self.CleanFiles = CleanFiles if CleanFiles is not None else 'true'
+          self.CleanFiles = CleanFiles if CleanFiles is not None else 'false'
 
           # Temporal and Perpendicular Baselines
           self.TemporalBaselineThreshold = TemporalBaselineThreshold if TemporalBaselineThreshold is not None else 1000        # [day]
@@ -56,6 +57,14 @@ class ALOS_Options:
           # OpenMP Threads using for parallel
           self.OpenMP_Num_Threads = OpenMP_Num_Threads if OpenMP_Num_Threads is not None else 20
 
+          ####################
+          # OPTIONS FOR GIANT
+          ####################
+          self.PrepareXML = PrepareXML if PrepareXML is not None else 'false'
+          self.PrepareIgram = PrepareIgram if PrepareIgram is not None else 'false'
+          self.ProcessStack = ProcessStack if ProcessStack is not None else 'false'
+          self.RunInversion = RunInversion if RunInversion is not None else 'false'
+          self.InvertMethod = InvertMethod if InvertMethod is not None else 'nsbas'
 
 class SEN1A_Options:
      """
@@ -72,15 +81,17 @@ class SEN1A_Options:
                          MPIMultipleNodes = None, GenerateRoipac=None, 
                          CleanFiles=None, SelectRegion=None,                         
                          minLatitude=None, maxLatitude=None, minLongitude=None, maxLongitude=None,
-                         TemporalBaselineThreshold=None, OpenMP_Num_Threads=None):
+                         TemporalBaselineThreshold=None, OpenMP_Num_Threads=None,
+                         PrepareXML=None, PrepareIgram=None, ProcessStack=None, 
+                         RunInversion=None, InvertMethod=None):
 
           # SET OPTIONS and PARAMETERS for SENTINEL-1A PROCESSING
 
           # Downloading data
-          self.DownloadImages = DownloadImages if DownloadImages is not None else 'true'                    
+          self.DownloadImages = DownloadImages if DownloadImages is not None else 'false'                    
 
           # Create XML files for isce processing
-          self.GenerateXML = GenerateXML if GenerateXML is not None else 'true'
+          self.GenerateXML = GenerateXML if GenerateXML is not None else 'false'
 
           # Select region of interest
           self.SelectRegion = SelectRegion if SelectRegion is not None else 'false'
@@ -90,22 +101,31 @@ class SEN1A_Options:
           self.maxLongitude = maxLongitude if maxLongitude is not None else None
                                         
           # Running interferograms
-          self.RunIFGs = RunIFGs if RunIFGs is not None else 'true'
+          self.RunIFGs = RunIFGs if RunIFGs is not None else 'false'
 
           # Running ISCE processing in parallel using MPI
           self.MPIMultipleNodes = MPIMultipleNodes if MPIMultipleNodes is not None else 'false'
 
           # Preparing roipac format for GIAnT
-          self.GenerateRoipac = GenerateRoipac if GenerateRoipac is not None else 'true'
+          self.GenerateRoipac = GenerateRoipac if GenerateRoipac is not None else 'false'
 
           # Cleaning unused file for GIAnT
-          self.CleanFiles = CleanFiles if CleanFiles is not None else 'true'
+          self.CleanFiles = CleanFiles if CleanFiles is not None else 'false'
 
           # Temporal and Perpendicular Baselines
           self.TemporalBaselineThreshold = TemporalBaselineThreshold if TemporalBaselineThreshold is not None else 30        # unit [day]
 
           # OpenMP Threads using for parallel
           self.OpenMP_Num_Threads = OpenMP_Num_Threads if OpenMP_Num_Threads is not None else 20
+
+          ####################
+          # OPTIONS FOR GIANT
+          ####################
+          self.PrepareXML = PrepareXML if PrepareXML is not None else 'false'
+          self.PrepareIgram = PrepareIgram if PrepareIgram is not None else 'false'
+          self.ProcessStack = ProcessStack if ProcessStack is not None else 'false'
+          self.RunInversion = RunInversion if RunInversion is not None else 'false'
+          self.InvertMethod = InvertMethod if InvertMethod is not None else 'nsbas'
 
 
 class ALOS_Lists:

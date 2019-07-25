@@ -6,6 +6,7 @@ import os,sys,subprocess
 import argparse, configparser
 import InSARFlowObjs as isfo
 import InSARFlowFuncs as isfc
+import InSARFlowGIAnT as isfg
 
 """
 --------------------------------------
@@ -40,7 +41,6 @@ def str2bool(inp):
     return inp.lower() in ("yes", "true", "1")
 
 
-
 if __name__ == '__main__':    
     if len(sys.argv) != 3:
         print('Error: Number of arguments is not matched!')
@@ -57,6 +57,7 @@ if __name__ == '__main__':
     project_name = os.path.splitext(fileASF)[0]
     CreateParameters = str2bool(config['ISCE']['CreateParameters'])
     RunScript = str2bool(config['ISCE']['RunScript'])
+    RunGIAnT = str2bool(config['GIANT']['RunGIAnT'])
     
     data = pd.read_csv(fileASF)
     platform=np.unique(data['Platform'])[0]
@@ -91,14 +92,18 @@ if __name__ == '__main__':
                 GenerateRoipac = str2bool(config['ISCE']['GenerateRoipac']),          # Create Roipac files for GIAnT runs
                 CleanFiles = str2bool(config['ISCE']['CleanFiles']),                  # Remove all files that are not used in GIAnT (No need for SEN1A)
                 TemporalBaselineThreshold = float(config['ISCE']['TemporalBaselineThreshold']),# Unit [day]
-                OpenMP_Num_Threads = int(config['ISCE']['OpenMP_Num_Threads']),  # Number of threads used in OpenMP for ISCE.
+                OpenMP_Num_Threads = int(config['ISCE']['OpenMP_Num_Threads']),       # Number of threads used in OpenMP for ISCE.
+                PrepareXML = str2bool(config['GIANT']['PrepareXML']),
+                PrepareIgram = str2bool(config['GIANT']['PrepareIgram']),
+                ProcessStack = str2bool(config['GIANT']['ProcessStack']),
+                RunInversion = str2bool(config['GIANT']['RunInversion']),
+                InvertMethod = config['GIANT']['InvertMethod'],
                 )
         if Opts.SelectRegion:
             Opts.minLatitude = float(config['ISCE']['minimumLatitude'])
             Opts.maxLatitude = float(config['ISCE']['maximumLatitude'])
             Opts.minLongitude = float(config['ISCE']['minimumLongitude'])
-            Opts.maxLongitude = float(config['ISCE']['maximumLongitude'])
-            print(Opts.minLatitude)
+            Opts.maxLongitude = float(config['ISCE']['maximumLongitude'])            
 
     elif platform == 'ALOS':
         Opts =  isfo.ALOS_Options( 
@@ -114,7 +119,12 @@ if __name__ == '__main__':
                 CleanFiles = str2bool(config['ISCE']['CleanFiles']),                # Remove all files that are not used in GIAnT
                 TemporalBaselineThreshold = float(config['ISCE']['TemporalBaselineThreshold']),            # Unit [day]
                 PerpendicularBaselineThreshold = float(config['ISCE']['PerpendicularBaselineThreshold']),  # Unit [m]
-                OpenMP_Num_Threads = int(config['ISCE']['OpenMP_Num_Threads']),  # Number of threads used in OpenMP for ISCE.
+                OpenMP_Num_Threads = int(config['ISCE']['OpenMP_Num_Threads']),     # Number of threads used in OpenMP for ISCE.
+                PrepareXML = str2bool(config['GIANT']['PrepareXML']),
+                PrepareIgram = str2bool(config['GIANT']['PrepareIgram']),
+                ProcessStack = str2bool(config['GIANT']['ProcessStack']),
+                RunInversion = str2bool(config['GIANT']['RunInversion']),
+                InvertMethod = config['GIANT']['InvertMethod'],
                 )        
     
 
@@ -181,3 +191,12 @@ if __name__ == '__main__':
 
         # Run the bash script
         isfc.ALOSRunISCEScripts(sar, RunScript, listSAR)
+
+
+    """
+    RUN GIAnT FOR TIME-SERIES ANALYSIS
+    """
+    if platform == 'Sentinel-1A':
+        isfg.SEN1A_RunGIAnT(listSAR, Opts, platform, RunGIAnT)
+    elif platform == 'ALOS':
+        isfg.ALOS_RunGIAnT(sar, listSAR, Opts, platform, RunGIAnT)
