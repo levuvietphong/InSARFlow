@@ -6,3 +6,7 @@
     - Fix names and terminologies
     - Update parallel options
     - Other bugfixes
+
+1.0.2
+    - Add GIAnT integration
+    - Bug fixes for bash shell
