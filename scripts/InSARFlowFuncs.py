@@ -252,7 +252,7 @@ def ALOSRunISCEScripts(sar, flag_run, lists):
                     if flag_run:
                         cwd = os.getcwd()
                         os.chdir(directory)
-                        cmd = "sh " + pathscript + "/run_scripts_ALOS.sh"
+                        cmd = "/" + pathscript + "/run_scripts_ALOS.sh"
                         subprocess.call(cmd, shell=True)
                         os.chdir(cwd)
     flog.close()
@@ -280,89 +280,8 @@ def SEN1ARunISCEScripts(flag_run, lists):
         if flag_run:
             cwd = os.getcwd()
             os.chdir(directory)
-            cmd = "sh " + pathscript + "/run_scripts_SEN1A.sh"
+            cmd = "/" + pathscript + "/run_scripts_SEN1A.sh"
             subprocess.call(cmd, shell=True)
             os.chdir(cwd)
     flog.close()
 
-
-def RunGIAnTScripts(project, platform, sar, prep, igram, processtack, invert, gmode):
-    #####################################################################
-    # This function calls GIAnT processing scripts for time-series analysis
-    #####################################################################    
-    flog = open('log_giant.txt',"a")
-    flog.write('---------------------------------------------------\n')
-    flog.write('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-    flog.write('RUNNING GIANT FOR TIME SERIES ANALYSIS ...\n') 
-    flog.flush()
-
-    pathscript = os.path.dirname(os.path.dirname(__file__))
-    if platform == 'ALOS':
-        for path in sar.columns:
-            frames = sar[path]
-            for frame in frames:
-                if ~np.isnan(frame):
-                    flog.write('PATH: '+str(path)+' AND FRAME: '+str(int(frame))+'\n'); flog.flush()
-                    directory = 'P'+str(path)+'_F'+str(int(frame))+'/GIAnT'
-                    if not os.path.exists(directory):
-                        flog.write('Error: GIAnT folder does NOT exist \n')
-                        flog.flush()
-                        exit()
-                    
-                    cwd = os.getcwd()
-                    os.chdir(directory)
-                    fout = open('output.txt',"a")            
-                    if prep:                
-                        fout.write('Running ./prepxml_SBAS_ALOS.py \n')
-                        subprocess.call("./prepxml_SBAS_ALOS.py", shell=True)
-                    if igram:
-                        fout.write('Running PrepIgramStack.py \n')
-                        subprocess.call("PrepIgramStack.py >> output.txt", shell=True)
-                    if processtack:
-                        fout.write('Running ProcessStack.py \n')
-                        subprocess.call("ProcessStack.py >> output.txt", shell=True)
-                    if invert:
-                        if gmode == 'sbas':
-                            fout.write('Running SBASInvert.py \n')
-                            subprocess.call("SBASInvert.py >> output.txt", shell=True)
-                            subprocess.call("SBASxval.py >> output.txt", shell=True)
-                        else:
-                            fout.write('Running NSBASInvert.py \n')
-                            subprocess.call("NSBASInvert.py >> output.txt", shell=True)
-                            subprocess.call("NSBASxval.py >> output.txt", shell=True)
-                    fout.close()
-                    os.chdir(cwd)
-
-    if platform == 'Sentinel-1A':
-        print('Platform: %s' % platform)
-        directory = project+'/GIAnT'
-        if not os.path.exists(directory):
-            flog.write('Error: GIAnT folder does NOT exist \n')
-            flog.flush()
-            exit()
-        
-        cwd = os.getcwd()
-        os.chdir(directory)
-        fout = open('output.txt',"a")            
-        if prep:                
-            fout.write('Running ./prepxml_SBAS_SEN1A.py \n')
-            subprocess.call("./prepxml_SBAS_SEN1A.py", shell=True)
-        if igram:
-            fout.write('Running PrepIgramStack.py \n')
-            subprocess.call("PrepIgramStack.py >> output.txt", shell=True)
-        if processtack:
-            fout.write('Running ProcessStack.py \n')
-            subprocess.call("ProcessStack.py >> output.txt", shell=True)
-        if invert:
-            if gmode == 'sbas':
-                fout.write('Running SBASInvert.py \n')
-                subprocess.call("SBASInvert.py >> output.txt", shell=True)
-                subprocess.call("SBASxval.py >> output.txt", shell=True)
-            else: #nsbas
-                fout.write('Running NSBASInvert.py \n')
-                subprocess.call("NSBASInvert.py >> output.txt", shell=True)
-                #subprocess.call("NSBASxval.py >> output.txt", shell=True)
-        fout.close()
-        os.chdir(cwd)
-
-    flog.close()

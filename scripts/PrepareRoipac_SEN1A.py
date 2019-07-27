@@ -7,6 +7,7 @@ import lxml.objectify as ob
 import xml.etree.ElementTree as ET
 import numpy as np
 import pandas as pd
+import gdal
 import subprocess
 import shutil
 
@@ -255,6 +256,23 @@ if __name__ == '__main__':
     with open(giant_dir+'/lon.flt', 'w') as f:
         lon.tofile(f)
     print('lat.flt and lon.flt files have been created.')
+
+    # Create mask file
+    swbd = glob.glob(isce_dir+'/swbdLat*.wbd.vrt')
+    ds = gdal.Open(swbd[0],gdal.GA_ReadOnly)
+    data = ds.GetRasterBand(1).ReadAsArray()
+    gt =ds.GetGeoTransform()
+    ds = gdal.Translate(giant_dir+'/watermask.tif', ds, projWin = [xmin, ymax, xmax, ymin])
+    wmask = ds.GetRasterBand(1).ReadAsArray()
+    wmask = np.ones(wmask.shape) - wmask
+    wmaskf4 = wmask.astype('float32')
+    wmaskint = wmask.astype(int)
+    with open(giant_dir+'/watermask_f4.flt', 'w') as f:
+        wmaskf4.tofile(f)
+    with open(giant_dir+'/watermask_int.flt', 'w') as f:
+        wmaskint.tofile(f)        
+    
+    print('watermask_f4.flt and watermask_int.flt files have been created.')
 
     # Copy file to GIAnT folder
     dir_path = os.path.dirname(os.path.dirname(__file__))

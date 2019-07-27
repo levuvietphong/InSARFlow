@@ -32,7 +32,7 @@ ifgfile.close()
 
 
 g = ts.TSXML('data')
-g.prepare_data_xml('example.rsc', xlim=[0,int(width)], ylim=[0,int(height)], rxlim=None, rylim=None,latfile='lat.flt', lonfile='lon.flt', hgtfile='demfloat32.crop', inc = 21., cohth=0.15, chgendian='False', masktype='f4',unwfmt='RMG', demfmt='FLT', corfmt='RMG', endianlist=['UNW','COR','HGT'])
+g.prepare_data_xml('example.rsc', mask='watermask_f4.flt', xlim=[0,int(width)], ylim=[0,int(height)], rxlim=None, rylim=None,latfile='lat.flt', lonfile='lon.flt', hgtfile='demfloat32.crop', inc = 21., cohth=0.15, chgendian='False', masktype='f4',unwfmt='RMG', demfmt='FLT', corfmt='RMG', endianlist=['UNW','COR','HGT'])
 g.writexml('data.xml')
 
 g = ts.TSXML('params')

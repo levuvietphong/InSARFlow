@@ -34,7 +34,7 @@ def ALOS_RunGIAnT(sar, lists, opts, platform, run):
                         if opts.MPIMultipleNodes:
                             cmd = "sbatch %s/qsub_GIAnT.sh %s %s %s" % (pathscript, pathscript, config, platform)
                         else:
-                            cmd = "sh %s/run_GIAnT.sh %s %s" % (pathscript, config, platform)
+                            cmd = "/%s/run_GIAnT.sh %s %s" % (pathscript, config, platform)
                         
                         subprocess.call(cmd, shell=True)            
                         os.chdir(cwd)
@@ -69,7 +69,7 @@ def SEN1A_RunGIAnT(lists, opts, platform, run):
             if opts.MPIMultipleNodes:
                 cmd = "sbatch %s/qsub_GIAnT.sh %s %s %s" % (pathscript, pathscript, config, platform)
             else:
-                cmd = "sh %s/run_GIAnT.sh %s %s" % (pathscript, config, platform)
+                cmd = "/%s/run_GIAnT.sh %s %s" % (pathscript, config, platform)
 
             subprocess.call(cmd, shell=True)            
             os.chdir(cwd)
