@@ -45,24 +45,25 @@ def SEN1A_RunGIAnT(lists, opts, platform, run):
     #####################################################################
     # This function implements set of functions to perform GIAnT for SEN1A output
     #####################################################################
-    flog = open(lists.Project+'/log_giant.txt',"a")
-    flog.write('---------------------------------------------------\n')
-    flog.write('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-    flog.write('RUNNING GIAnT FOR SENTINEL-1A InSAR ...\n') 
-    print('---------------------------------------------------\n')
-    print('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-    print('RUNNING GIAnT FOR SENTINEL-1A InSAR ...\n') 
-    flog.flush()
+    if run:
+        flog = open(lists.Project+'/log_giant.txt',"a")
+        flog.write('---------------------------------------------------\n')
+        flog.write('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+        flog.write('RUNNING GIAnT FOR SENTINEL-1A InSAR ...\n') 
+        print('---------------------------------------------------\n')
+        print('TIME: %s \n' % datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+        print('RUNNING GIAnT FOR SENTINEL-1A InSAR ...\n') 
+        flog.flush()
+        
+        pathscript = os.path.dirname(__file__)
+        directory = lists.Project+'/'+lists.GIAnTDirectory
+        flog.write('PROJECT: %s \n' % directory)
+        print('PROJECT: %s \n' % directory)
     
-    pathscript = os.path.dirname(__file__)
-    directory = lists.Project+'/'+lists.GIAnTDirectory
-    flog.write('PROJECT: %s \n' % directory)
-    print('PROJECT: %s \n' % directory)
-    
-    if not os.path.exists(directory):
-        print('Error: Folder %s is not existed!' % directory)
-    else:
-        if run:
+        if not os.path.exists(directory):
+            print('Error: Folder %s is not existed!' % directory)
+            exit(1)
+        else:
             cwd = os.getcwd()
             os.chdir(directory)
             config = 'SEN1A_parameters.cfg' 
@@ -73,4 +74,4 @@ def SEN1A_RunGIAnT(lists, opts, platform, run):
 
             subprocess.call(cmd, shell=True)            
             os.chdir(cwd)
-    flog.close()
+        flog.close()
