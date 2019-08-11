@@ -46,6 +46,7 @@ if $flag_topsar; then
     # Downloading and stitching DEM files
     cd $ISCEdir
     dem.py -a stitch -b $minLat_int $maxLat_int $minLon_int $maxLon_int -r -c -k
+    wbd.py $minLat_int $maxLat_int $minLon_int $maxLon_int
     cd ..
 
     # Create xml file for first pair for verifyDEM purpose
@@ -91,7 +92,7 @@ if $flag_ifgs; then
         # ... OR run jobs on an interactive node
         # This runs the jobs on a single computing node (still using MPI, but less resources)
         export OMP_NUM_THREADS=4
-        srun -n 8 $pathscript/mpi_SEN1A.py -d $ISCEdir -i $ActiveList
+        mpirun -n 5 $pathscript/mpi_SEN1A.py -d $ISCEdir -i $ActiveList
     fi 
 fi
 
@@ -99,7 +100,7 @@ fi
 # PREPARING FILE IN ROIPAC FORMAT FOR GIANT
 if $flag_rpac; then
     # Extracting info for GIAnT processing
-    echo -e "Preparing file for GIANT using ROIPAC format ......" | tee -a "$logbash"
+    echo -e "Preparing files for GIANT using ROIPAC format ......" | tee -a "$logbash"
     PrepareRoipac_SEN1A.py -i $ISCEdir -g $GIAnTdir -l $DatePairList
 fi
 

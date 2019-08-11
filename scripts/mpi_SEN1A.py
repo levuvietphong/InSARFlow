@@ -33,7 +33,7 @@ def GetFilePath(filelist):
     return full_list
 
 
-def DomainDecompose(com,rank,size,input):   
+def DomainDecompose(comm,rank,size,input):   
     file_list = GetFilePath(input)
     if rank == 0:
         numpairs = np.shape(file_list)[0]

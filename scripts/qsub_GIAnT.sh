@@ -10,7 +10,7 @@
 ulimit -s unlimited
 ulimit -l unlimited
 
-source /home/phonglvv/.giant/.giant2env
+source /home/phonglvv/.giant
 pathscript=$1
 config=$2
 platform=$3

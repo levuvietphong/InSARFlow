@@ -38,7 +38,7 @@ def cropping_dem(GIAnT,insardir):
     subprocess.call(cmd, shell=True)
     os.chdir(cwd)
 
-def DomainDecompose(com,rank,size,input):
+def DomainDecompose(comm,rank,size,input):
     
     file_list = GetFilePath(input)
     if rank == 0:

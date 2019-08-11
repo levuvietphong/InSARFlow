@@ -1,0 +1,1 @@
+prep_isce.py -i ./merged/interferograms -m ./master/IW1.xml -b ./baselines -g ./merged/geom_master

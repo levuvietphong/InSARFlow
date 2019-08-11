@@ -28,7 +28,6 @@ def PlotSWBD(list):
     print(lon_start, lon_end, lat_start, lat_end, pixelHeight, pixelWidth)
 
     swbd = glob.glob(list.ISCEDirectory+'/swbdLat*.wbd.vrt')
-    print(swbd[0])
     ds = gdal.Open(swbd[0],gdal.GA_ReadOnly)
     data = ds.GetRasterBand(1).ReadAsArray()
     gt =ds.GetGeoTransform()
@@ -107,7 +106,6 @@ def ExtractUnwrappedPhase(list):
     hf0.close()
 
 
-
 def AnalyzeCoherenceAndUnwPhase(list,cohf,unwphf):
     print('Analyzing Coherence and Deformation')
 
@@ -121,7 +119,6 @@ def AnalyzeCoherenceAndUnwPhase(list,cohf,unwphf):
     unwphase = hf1.get('unwphase')
     t,m,n = unwphase.shape
     stdarr = np.nanstd(unwphase, axis=0)
-
 
 
 def AnalyzeVelocity(list,unwphf,wlen):
@@ -150,6 +147,14 @@ def AnalyzeVelocity(list,unwphf,wlen):
     plt.colorbar(im, shrink=0.5, ax=ax)
     plt.show()
 
+
+def ExportWaterMask(list):
+    swbd = PlotSWBD(list)
+    mask = swbd.astype(bool)
+
+    hf = h5py.File(list.MISCDirectory+'/waterMask.h5', 'w')
+    hf.create_dataset('mask', data=mask)
+    hf.close()
 
 
 def Plotting(list,h5f,var,opt,ind):
