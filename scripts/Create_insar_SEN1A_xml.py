@@ -100,6 +100,7 @@ def insarApp_SEN1A_xml_generator(slcdir, iscedir, auxdir, poedir, auxlink, datei
         if bbox is not None:
             topsinsar['region of interest'] = [float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3])]
         
+        topsinsar['swaths'] = [2]
         topsinsar['range looks'] = 7
         topsinsar['azimuth looks'] = 3
         topsinsar['filter strength'] = 0.4

@@ -41,6 +41,10 @@ import subprocess
 import xml.etree.ElementTree as ET
 import datetime
 
+###
+# Global variables intended for cross-thread modification
+abort = False
+
 #############
 # This next block is a bunch of Python 2/3 compatability
 
@@ -73,7 +77,7 @@ class bulk_downloader(object):
 
         self.asf_urs4 = { 'url': 'https://urs.earthdata.nasa.gov/oauth/authorize',
                  'client': 'BO_n7nTIlMljdvU6kRRB3g',
-                 'redir': 'https://vertex.daac.asf.alaska.edu/services/urs4_token_request'}
+                 'redir': 'https://vertex-retired.daac.asf.alaska.edu/services/urs4_token_request'}
 
         # Make sure we can write it our current directory
         if os.access(os.getcwd(), os.W_OK) is False:
@@ -521,6 +525,10 @@ class bulk_downloader(object):
     def download_files(self):
         for file_name in self.files:
 
+            # make sure we haven't ctrl+c'd or some other abort trap
+            if abort == True:
+              raise SystemExit
+
             # download counter
             self.cnt += 1
 
@@ -611,7 +619,21 @@ if __name__ == "__main__":
    dd = pd.DatetimeIndex(date_process).day
    cwd = os.getcwd()
 
-   # Download POEORB files
+ 
+   # Download Auxilliary file
+   if (aux != None) and (auxlink != None):
+      os.chdir(aux)
+      subprocess.call('wget -nc '+auxlink, shell=True)
+      os.chdir(cwd)
+
+   # Download Data files
+   os.chdir(datadir)
+   downloader = bulk_downloader(url_scene)
+   downloader.download_files()
+   downloader.print_summary()
+   os.chdir(cwd)
+
+  # Download POEORB files
    if poeorb is not None:
       os.chdir(poeorb)
       for i in range (0,len(url_scene)): 
@@ -629,16 +651,3 @@ if __name__ == "__main__":
          print("#### Checking file POEORB at %s " % url)
          subprocess.call('wget -nc '+url, shell=True)
       os.chdir(cwd)
-
-   # Download Auxilliary file
-   if (aux != None) and (auxlink != None):
-      os.chdir(aux)
-      subprocess.call('wget -nc '+auxlink, shell=True)
-      os.chdir(cwd)
-
-   # Download Data files
-   os.chdir(datadir)
-   downloader = bulk_downloader(url_scene)
-   downloader.download_files()
-   downloader.print_summary()
-   os.chdir(cwd)

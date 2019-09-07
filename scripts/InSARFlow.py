@@ -58,17 +58,16 @@ if __name__ == '__main__':
     CreateParameters = str2bool(config['ISCE']['CreateParameters'])
     RunScript = str2bool(config['ISCE']['RunScript'])
     RunGIAnT = str2bool(config['GIANT']['RunGIAnT'])
-    
     data = pd.read_csv(fileASF)
     platform=np.unique(data['Platform'])[0]
-    pathnum=np.unique(data['Path Number'])[0]
     framenum = np.unique(data['Frame Number'])
-    
     # Set up SAR matrix in pandas dataframe
     if platform == 'Sentinel-1A':
+        pathnum=np.unique(data['Path Number'])[0]
         sar = pd.DataFrame({pathnum:framenum})
         auxlink = config['PROJECT']['AuxilliaryLink']
     elif platform == 'ALOS':
+        pathnum=np.unique(data['Path Number'])
         if np.isscalar(pathnum):
             sar = pd.DataFrame(np.vstack([framenum]).T, columns=[pathnum])
         else:
