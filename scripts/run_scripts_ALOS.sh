@@ -48,7 +48,7 @@ fi
 #--------------------------------------------------------------
 if $flag_unzip; then    
     echo -e "2. Unzipping and extracting data..." | tee -a "$logbash"
-    sh $scriptdir/Get_ALOSdateID.sh $zipdir $rawdir $dateID
+    sh $pathscript/Get_ALOSdateID.sh $zipdir $rawdir $dateID
     echo -e "Unzip finished !!!" | tee -a "$logbash"
 fi
 
