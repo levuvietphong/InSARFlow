@@ -148,7 +148,7 @@ if $flag_ifgs; then
         # ... OR run jobs on an interactive node
         # This runs the jobs on a single computing node (still using MPI, but less resources)
         export OMP_NUM_THREADS=4
-        srun -n 20 $pathscript/mpi_ALOS.py -m $pmode -r $rawdir -i $ISCEdir -l $ActiveList 
+        srun -n 20 $pathscript/mpi_ALOS.py -m $pmode -r $rawdir -d $ISCEdir -l $ActiveList 
 
         # Update complete and active pairs
         Check_Interferogram_ALOS.py -m $pmode -i $ISCEdir -l $DatePairList -a $ActiveList -c $CompleteList
